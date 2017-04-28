@@ -1,0 +1,36 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [
+
+    // First application
+    {
+      name      : "fake_gstatic",
+      script    : "bin/www",
+      env: {
+        COMMON_VARIABLE: "true"
+      },
+      env_production : {
+        NODE_ENV: "production",
+        PORT: 7777
+      }
+    }
+  ],
+
+  /**
+   * Deployment section
+   * http://pm2.keymetrics.io/docs/usage/deployment/
+   */
+  deploy : {
+    production : {
+      user : "deploy",
+      host : "aliyun",
+      ref  : "origin/master",
+      repo : "git@github.com:cuijiemmx/fake_gstatic.git",
+      path : "/home/deploy/fake_gstatic",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+    }
+  }
+}
